@@ -1,0 +1,25 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Testing and caches
+.pytest_cache/
+.coverage
+htmlcov/
+.cache/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Project personal study / detailed explanation guide
+CODE_EXPLAINED.md

@@ -11,14 +11,11 @@ def gram_schmidt(A):
 
 if __name__ == "__main__":
     from loader import load_fd001
-    from rref import rref
 
     df = load_fd001()
     sensor_cols = [c for c in df.columns if c.startswith("s")]
-    X_full = df[sensor_cols].values
-
-    _, pivots = rref(X_full[:50])
-    keep = [sensor_cols[i] for i in pivots]
+    stds = df[sensor_cols].std()
+    keep = stds[stds > 0.01].index.tolist()
     print("Using columns:", keep)
 
     X = df[keep].values

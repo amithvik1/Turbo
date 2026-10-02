@@ -24,7 +24,19 @@ if __name__ == "__main__":
     from loader import load_fd001
     df = load_fd001()
     sensor_cols = [c for c in df.columns if c.startswith("s")]
-    X = df[sensor_cols].values
-    R, pivots = rref(X[:50])
-    print("Rank:", len(pivots))
-    print("Pivot columns (keep these):", [sensor_cols[i] for i in pivots])
+    stds = df[sensor_cols].std()
+    keep = stds[stds > 0.01].index.tolist()
+    dropped = [c for c in sensor_cols if c not in keep]
+
+    X = df[keep].values
+    R, pivots = rref(X)
+
+    rank = len(pivots)
+    total_sensors = len(sensor_cols)
+    nullity = total_sensors - rank
+
+    print("Total initial sensors:", total_sensors)
+    print("Dropped constant sensors:", dropped)
+    print("Rank on full 14-sensor matrix:", rank)
+    print(f"Nullity ({total_sensors} - {rank}):", nullity)
+    print("Pivot columns:", [keep[i] for i in pivots])
